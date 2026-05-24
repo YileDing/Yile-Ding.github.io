@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>丁奕乐 | 个人作品集</title>
+    <title>丁奕乐 | 个人作品集 · 数据分析 · Python开发</title>
     <style>
         * {
             margin: 0;
@@ -46,8 +46,6 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             background-clip: text;
-            color: transparent;
-            background-color: white;
             -webkit-text-fill-color: transparent;
             background-color: transparent;
         }
@@ -170,15 +168,44 @@
             font-family: inherit;
         }
 
-        /* 截图占位 */
-        .screenshot-placeholder {
-            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
-            border: 2px dashed #667eea;
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
+        /* 数据表格样式 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
             margin: 1rem 0;
-            color: #667eea;
+            font-size: 0.85rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: left;
+        }
+
+        .data-table th {
+            background: #667eea;
+            color: white;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .data-preview {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        /* 图表区域 */
+        .chart-note {
+            background: #e7f3ff;
+            border-left: 4px solid #3498db;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
         }
 
         /* 属性标签 */
@@ -238,15 +265,6 @@
 
         .method-table tr:nth-child(even) {
             background: #f9f9f9;
-        }
-
-        /* 图表区域 */
-        .chart-note {
-            background: #e7f3ff;
-            border-left: 4px solid #3498db;
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 8px;
         }
 
         /* 按钮 */
@@ -314,11 +332,12 @@
 <body>
     <nav class="navbar">
         <div class="nav-content">
-            <div class="logo">🐍 <span>Yile Ding</span> | 作品集</div>
+            <div class="logo">🐍 <span>丁奕乐</span> | 作品集</div>
             <div class="nav-links">
                 <a href="#game">大学生活模拟器</a>
                 <a href="#economics">经济数据分析</a>
                 <a href="#algorithms">数列求和算法</a>
+                <a href="#data">数据文件</a>
             </div>
         </div>
     </nav>
@@ -390,8 +409,6 @@
                 • 🎭 参加社团活动："你被选为社团干部" → 社会实践+2，金钱-30<br>
                 • 💼 做兼职工作："你得到了晋升" → 社会实践+4，金钱+500
             </div>
-
-            <a href="#" class="btn" onclick="alert('完整游戏代码已在GitHub仓库中，欢迎下载体验！'); return false;">📥 查看完整代码</a>
         </div>
 
         <!-- ==================== 项目2：经济数据分析 ==================== -->
@@ -403,7 +420,7 @@
                 <span class="project-badge">FRED数据</span>
             </div>
             <p class="project-description">
-                基于美联储FRED数据库（CPI、失业率、联邦基金利率），分析2000-2020年美国经济指标，
+                基于美联储FRED数据库（CPI、失业率、联邦基金利率），分析1948-2026年美国经济指标，
                 验证菲利普斯曲线理论，可视化通货膨胀与失业率的关系。
             </p>
 
@@ -412,6 +429,15 @@
                 <span class="tag">#时间序列分析</span>
                 <span class="tag">#相关性检验</span>
                 <span class="tag">#经济学可视化</span>
+            </div>
+
+            <!-- 数据文件信息 -->
+            <div class="chart-note">
+                <strong>📊 数据文件说明</strong><br>
+                • <strong>CPIAUCSL.csv</strong> - 美国消费者价格指数（CPI），1947-2026年，月度数据<br>
+                • <strong>UNRATE.csv</strong> - 美国失业率，1948-2026年，月度数据<br>
+                • <strong>DFF.csv</strong> - 美国联邦基金有效利率，1954-2026年，日度数据<br>
+                • 数据来源：美联储经济数据库（FRED）
             </div>
 
             <h3>📊 菲利普斯曲线分析</h3>
@@ -430,35 +456,16 @@ df = pd.merge(cpi, unemp, on='observation_date')
 # 计算通货膨胀率（同比）
 df['inflation'] = (df['CPIAUCSL'] / df['CPIAUCSL'].shift(12) - 1) * 100
 
+# 筛选2000年后的数据
+df = df[df['observation_date'] >= '2000-01-01']
+
 # 绘制散点图和趋势线
 plt.scatter(df['UNRATE'], df['inflation'], alpha=0.5)
 z = np.polyfit(df['UNRATE'], df['inflation'], 1)
+p = np.poly1d(z)
 plt.plot(x_trend, p(x_trend), 'r--', label=f'Trend (slope={z[0]:.2f})')
 
 print(f'相关系数: {df["UNRATE"].corr(df["inflation"]):.3f}')</code></pre>
-            </div>
-
-            <div class="chart-note">
-                <strong>📈 分析结果</strong><br>
-                • 通货膨胀率与失业率呈现负相关趋势（菲利普斯曲线）<br>
-                • 2008年金融危机和2020年COVID-19期间经济指标出现显著波动<br>
-                • 联邦基金利率作为货币政策工具，与通胀和失业存在联动关系
-            </div>
-
-            <!-- 经济指标乘积可视化 -->
-            <h3>📊 失业率 × 通胀率 乘积分析</h3>
-            <div class="code-block">
-                <pre><code># 计算失业率与通胀率的乘积，衡量经济痛苦程度
-df['product'] = df['UNRATE'] * df['inflation']
-
-plt.plot(df['observation_date'], df['product'], color='red')
-plt.title('Unemployment Rate × Inflation Rate (2000-2026)')
-plt.ylabel('Product (Unemp% × Inf%)')</code></pre>
-            </div>
-
-            <div class="screenshot-placeholder">
-                📸 [图表截图位置] 菲利普斯曲线散点图、经济指标时间序列图<br>
-                <small>（实际运行时需下载 CPIAUCSL.csv 和 UNRATE.csv 数据文件）</small>
             </div>
 
             <h3>📊 美国经济指标综合图（2000-2020）</h3>
@@ -468,7 +475,16 @@ plt.plot(df_rate['observation_date'], df_rate['DFF'], label='Fed Funds Rate')
 plt.plot(df_unrate['observation_date'], df_unrate['UNRATE'], label='Unemployment Rate')
 plt.plot(df_cpi['observation_date'], df_cpi['inflation'], label='CPI Inflation')
 # 标注金融危机和COVID-19时期
-plt.axvspan('2007-12', '2009-06', alpha=0.2, label='Financial Crisis')</code></pre>
+plt.axvspan('2007-12', '2009-06', alpha=0.2, label='Financial Crisis')
+plt.axvspan('2020-02', '2020-04', alpha=0.2, label='COVID-19')</code></pre>
+            </div>
+
+            <div class="chart-note">
+                <strong>📈 关键分析发现</strong><br>
+                • 通货膨胀率与失业率在2000-2020年间呈现负相关趋势<br>
+                • 2008年金融危机期间联邦基金利率从5.25%降至接近0%<br>
+                • 2020年COVID-19疫情期间失业率飙升至14.8%的历史高位<br>
+                • 2021-2023年通胀率上升至9%以上，为40年来最高
             </div>
         </div>
 
@@ -573,7 +589,7 @@ def sum_arithmetic_by_diff(first, diff, n):
         return first * n
     return first * (1 - q ** n) / (1 - q)
 
-# 示例：1+2+4+8+16 = 31</code></pre>
+# 示例：1+2+4+8+16 = 31.0</code></pre>
             </div>
 
             <div class="chart-note">
@@ -583,20 +599,97 @@ def sum_arithmetic_by_diff(first, diff, n):
                 3️⃣ Python内置函数通常是最佳选择<br>
                 4️⃣ 递归和分治虽然优雅，但实际使用中要权衡效率
             </div>
+        </div>
 
-            <!-- 运行结果展示 -->
-            <h3>✅ 运行结果验证</h3>
-            <div class="code-block">
-                <pre><code>>>> sum_for([1,2,3,4,5])
-15
->>> sum_arithmetic(1, 100, 100)
-5050
->>> sum_geometric(1, 2, 5)
-31.0</code></pre>
+        <!-- ==================== 项目4：数据文件预览 ==================== -->
+        <div class="project-card" id="data">
+            <div class="project-header">
+                <span class="project-icon">📊</span>
+                <h2 class="project-title">宏观经济数据集</h2>
+                <span class="project-badge">CSV数据文件</span>
+                <span class="project-badge">1948-2026</span>
+            </div>
+            <p class="project-description">
+                以下数据集来自美联储FRED数据库，用于经济指标分析项目。包含CPI（消费者价格指数）、
+                失业率和联邦基金利率的完整历史数据。
+            </p>
+
+            <!-- CPI数据预览 -->
+            <h3>📈 CPIAUCSL.csv - 消费者价格指数</h3>
+            <div class="data-preview">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>日期</th><th>CPI值</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2026-04-01</td><td>332.407</td></tr>
+                        <tr><td>2026-03-01</td><td>330.293</td></tr>
+                        <tr><td>2026-02-01</td><td>327.460</td></tr>
+                        <tr><td>2026-01-01</td><td>326.588</td></tr>
+                        <tr><td>2025-12-01</td><td>326.031</td></tr>
+                        <tr><td>2025-11-01</td><td>325.063</td></tr>
+                        <tr><td>2025-10-01</td><td>--</td></tr>
+                        <tr><td>2025-09-01</td><td>324.245</td></tr>
+                        <tr><td>2025-08-01</td><td>323.291</td></tr>
+                        <tr><td>2025-07-01</td><td>322.169</td></tr>
+                        <tr><td colspan="2" style="text-align:center">... 共约950行数据，自1947年起 ...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 失业率数据预览 -->
+            <h3>📉 UNRATE.csv - 失业率 (%)</h3>
+            <div class="data-preview">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>日期</th><th>失业率 (%)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2026-04-01</td><td>4.3</td></tr>
+                        <tr><td>2026-03-01</td><td>4.3</td></tr>
+                        <tr><td>2026-02-01</td><td>4.4</td></tr>
+                        <tr><td>2026-01-01</td><td>4.3</td></tr>
+                        <tr><td>2025-12-01</td><td>4.4</td></tr>
+                        <tr><td>2025-11-01</td><td>4.5</td></tr>
+                        <tr><td>2020-04-01</td><td>14.8</td><td style="color:red">📌 历史高点（COVID-19）</td></tr>
+                        <tr><td>1982-11-01</td><td>10.8</td><td style="color:red">📌 历史高点（石油危机）</td></tr>
+                        <tr><td colspan="2" style="text-align:center">... 共约940行数据，自1948年起 ...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 联邦基金利率数据预览 -->
+            <h3>💰 DFF.csv - 联邦基金有效利率 (%)</h3>
+            <div class="data-preview">
+                <table class="data-table">
+                    <thead>
+                        <tr><th>日期</th><th>利率 (%)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2026-05-13</td><td>3.63</td></tr>
+                        <tr><td>2026-05-12</td><td>3.63</td></tr>
+                        <tr><td>2026-05-11</td><td>3.63</td></tr>
+                        <tr><td>2026-05-10</td><td>3.63</td></tr>
+                        <tr><td>2026-05-09</td><td>3.63</td></tr>
+                        <tr><td>2026-05-08</td><td>3.63</td></tr>
+                        <tr><td>2026-05-07</td><td>3.63</td></tr>
+                        <tr><td>2022-12-15</td><td>4.33</td><td style="color:red">📌 近期高点</td></tr>
+                        <tr><td>2008-12-16</td><td>0.16</td><td style="color:green">📌 金融危机低点</td></tr>
+                        <tr><td colspan="2" style="text-align:center">... 共约18,600+行日度数据，自1954年起 ...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-note">
+                <strong>📁 数据文件说明</strong><br>
+                • 所有CSV文件已包含在GitHub仓库中，可直接用于数据分析项目<br>
+                • CPI和UNRATE为月度数据，DFF为日度数据<br>
+                • 数据更新至2026年最新月份<br>
+                • 使用方法：<code>pd.read_csv('文件名.csv', parse_dates=['observation_date'])</code>
             </div>
         </div>
 
-        <!-- ==================== 项目4：AI辅助开发报告 ==================== -->
+        <!-- ==================== AI辅助开发报告 ==================== -->
         <div class="project-card">
             <div class="project-header">
                 <span class="project-icon">🤖</span>
@@ -641,7 +734,7 @@ self.money = max(0, self.money + money_delta)</code></pre>
             </div>
         </div>
 
-        <!-- ==================== GitHub仓库链接 ==================== -->
+        <!-- GitHub仓库链接 -->
         <div class="project-card" style="text-align: center; background: linear-gradient(135deg, #667eea10, #764ba210);">
             <div class="project-header" style="justify-content: center;">
                 <span class="project-icon">🐙</span>

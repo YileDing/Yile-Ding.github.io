@@ -1,11 +1,660 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-    <meta charset="utf-8">
-    <title>我的个人网站</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>丁奕乐 | 个人作品集</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            background: rgba(44, 62, 80, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-color: white;
+            -webkit-text-fill-color: transparent;
+            background-color: transparent;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* 头部区域 */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 主要内容容器 */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* 项目卡片 */
+        .project-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .project-icon {
+            font-size: 2rem;
+        }
+
+        .project-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .project-badge {
+            background: #667eea;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .project-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        /* 代码块样式 */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .code-block pre {
+            margin: 0;
+        }
+
+        .code-block code {
+            font-family: inherit;
+        }
+
+        /* 截图占位 */
+        .screenshot-placeholder {
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            border: 2px dashed #667eea;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+            color: #667eea;
+        }
+
+        /* 属性标签 */
+        .stats-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .stat-item {
+            background: #f0f0f0;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* 进度条展示 */
+        .progress-demo {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 20px;
+            width: 100%;
+            margin: 0.5rem 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 10px;
+            height: 100%;
+            width: 60%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.7rem;
+        }
+
+        /* 方法对比表格 */
+        .method-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .method-table th,
+        .method-table td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: left;
+        }
+
+        .method-table th {
+            background: #667eea;
+            color: white;
+        }
+
+        .method-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        /* 图表区域 */
+        .chart-note {
+            background: #e7f3ff;
+            border-left: 4px solid #3498db;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+        }
+
+        /* 按钮 */
+        .btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+        }
+
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: #2c3e50;
+            color: white;
+            margin-top: 3rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .project-title {
+                font-size: 1.3rem;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* 标签组 */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .tag {
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 0.2rem 0.6rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ccc, transparent);
+        }
+    </style>
 </head>
 <body>
-    <h1>你好，世界！</h1>
-    <p>这是我的GitHub Pages个人网站。</p>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">🐍 <span>Yile Ding</span> | 作品集</div>
+            <div class="nav-links">
+                <a href="#game">大学生活模拟器</a>
+                <a href="#economics">经济数据分析</a>
+                <a href="#algorithms">数列求和算法</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>🐍 丁奕乐的 Python 作品集</h1>
+        <p>数据分析 · 算法实现 · 游戏开发 · 经济学研究</p>
+    </section>
+
+    <div class="container">
+        <!-- ==================== 项目1：大学生活模拟器 ==================== -->
+        <div class="project-card" id="game">
+            <div class="project-header">
+                <span class="project-icon">🎮</span>
+                <h2 class="project-title">大学生活模拟器</h2>
+                <span class="project-badge">Python 文字游戏</span>
+                <span class="project-badge">AI 辅助开发</span>
+            </div>
+            <p class="project-description">
+                一款文字决策类大学校园模拟游戏。玩家在24个月内通过选择不同活动（学习、健身、社团、社交、兼职、休息），
+                平衡学习成绩、身体健康、心理健康、社会实践和金钱五项数值，触发随机事件，争取获得奖学金或企业单招机会。
+            </p>
+
+            <div class="stats-grid">
+                <div class="stat-item">📚 学习成绩: 50</div>
+                <div class="stat-item">💪 身体健康: 50</div>
+                <div class="stat-item">🧠 心理健康: 50</div>
+                <div class="stat-item">👥 社会实践: 10</div>
+                <div class="stat-item">💰 金钱: 500元</div>
+            </div>
+
+            <!-- 进度条演示 -->
+            <div class="progress-demo">
+                <div class="progress-fill" style="width: 50%">50%</div>
+            </div>
+
+            <div class="tags">
+                <span class="tag">#面向对象编程</span>
+                <span class="tag">#随机事件系统</span>
+                <span class="tag">#数值平衡</span>
+                <span class="tag">#TRAE辅助开发</span>
+            </div>
+
+            <div class="code-block">
+                <pre><code>class CollegeSimulator:
+    def __init__(self):
+        self.gpa = 50          # 学习成绩
+        self.health = 50       # 身体健康  
+        self.mental = 50       # 心理健康
+        self.social = 10       # 社会实践
+        self.money = 500       # 金钱
+        self.month = 1         # 当前月份
+        self.total_months = 24 # 总时长2学年
+
+    def get_progress_bar(self, value, label, bar_char='#'):
+        """绘制进度条"""
+        bar_length = 20
+        percent = value / 100
+        filled_length = int(bar_length * percent)
+        bar = bar_char * filled_length + '-' * (bar_length - filled_length)
+        return f"{label}: [{bar}] {value}"</code></pre>
+            </div>
+
+            <!-- 事件示例 -->
+            <div class="chart-note">
+                <strong>📖 随机事件示例</strong><br>
+                • 📚 去图书馆学习："你在图书馆偶遇了一位教授，获得了学习建议" → 学习成绩+3，心理健康-1<br>
+                • 🏋️ 去健身房锻炼："你参加了校园运动会，获得了跑步比赛奖项" → 身体健康+1，心理健康+1<br>
+                • 🎭 参加社团活动："你被选为社团干部" → 社会实践+2，金钱-30<br>
+                • 💼 做兼职工作："你得到了晋升" → 社会实践+4，金钱+500
+            </div>
+
+            <a href="#" class="btn" onclick="alert('完整游戏代码已在GitHub仓库中，欢迎下载体验！'); return false;">📥 查看完整代码</a>
+        </div>
+
+        <!-- ==================== 项目2：经济数据分析 ==================== -->
+        <div class="project-card" id="economics">
+            <div class="project-header">
+                <span class="project-icon">📈</span>
+                <h2 class="project-title">宏观经济数据分析</h2>
+                <span class="project-badge">pandas + matplotlib</span>
+                <span class="project-badge">FRED数据</span>
+            </div>
+            <p class="project-description">
+                基于美联储FRED数据库（CPI、失业率、联邦基金利率），分析2000-2020年美国经济指标，
+                验证菲利普斯曲线理论，可视化通货膨胀与失业率的关系。
+            </p>
+
+            <div class="tags">
+                <span class="tag">#数据清洗</span>
+                <span class="tag">#时间序列分析</span>
+                <span class="tag">#相关性检验</span>
+                <span class="tag">#经济学可视化</span>
+            </div>
+
+            <h3>📊 菲利普斯曲线分析</h3>
+            <div class="code-block">
+                <pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+# 读取CPI和失业率数据
+cpi = pd.read_csv('CPIAUCSL.csv', parse_dates=['observation_date'])
+unemp = pd.read_csv('UNRATE.csv', parse_dates=['observation_date'])
+
+# 合并数据
+df = pd.merge(cpi, unemp, on='observation_date')
+
+# 计算通货膨胀率（同比）
+df['inflation'] = (df['CPIAUCSL'] / df['CPIAUCSL'].shift(12) - 1) * 100
+
+# 绘制散点图和趋势线
+plt.scatter(df['UNRATE'], df['inflation'], alpha=0.5)
+z = np.polyfit(df['UNRATE'], df['inflation'], 1)
+plt.plot(x_trend, p(x_trend), 'r--', label=f'Trend (slope={z[0]:.2f})')
+
+print(f'相关系数: {df["UNRATE"].corr(df["inflation"]):.3f}')</code></pre>
+            </div>
+
+            <div class="chart-note">
+                <strong>📈 分析结果</strong><br>
+                • 通货膨胀率与失业率呈现负相关趋势（菲利普斯曲线）<br>
+                • 2008年金融危机和2020年COVID-19期间经济指标出现显著波动<br>
+                • 联邦基金利率作为货币政策工具，与通胀和失业存在联动关系
+            </div>
+
+            <!-- 经济指标乘积可视化 -->
+            <h3>📊 失业率 × 通胀率 乘积分析</h3>
+            <div class="code-block">
+                <pre><code># 计算失业率与通胀率的乘积，衡量经济痛苦程度
+df['product'] = df['UNRATE'] * df['inflation']
+
+plt.plot(df['observation_date'], df['product'], color='red')
+plt.title('Unemployment Rate × Inflation Rate (2000-2026)')
+plt.ylabel('Product (Unemp% × Inf%)')</code></pre>
+            </div>
+
+            <div class="screenshot-placeholder">
+                📸 [图表截图位置] 菲利普斯曲线散点图、经济指标时间序列图<br>
+                <small>（实际运行时需下载 CPIAUCSL.csv 和 UNRATE.csv 数据文件）</small>
+            </div>
+
+            <h3>📊 美国经济指标综合图（2000-2020）</h3>
+            <div class="code-block">
+                <pre><code># 同时绘制联邦基金利率、失业率、CPI通胀率
+plt.plot(df_rate['observation_date'], df_rate['DFF'], label='Fed Funds Rate')
+plt.plot(df_unrate['observation_date'], df_unrate['UNRATE'], label='Unemployment Rate')
+plt.plot(df_cpi['observation_date'], df_cpi['inflation'], label='CPI Inflation')
+# 标注金融危机和COVID-19时期
+plt.axvspan('2007-12', '2009-06', alpha=0.2, label='Financial Crisis')</code></pre>
+            </div>
+        </div>
+
+        <!-- ==================== 项目3：数列求和算法 ==================== -->
+        <div class="project-card" id="algorithms">
+            <div class="project-header">
+                <span class="project-icon">🔢</span>
+                <h2 class="project-title">数列求和：一题多解</h2>
+                <span class="project-badge">算法思想</span>
+                <span class="project-badge">时间复杂度分析</span>
+            </div>
+            <p class="project-description">
+                探索同一问题的多种解法，涵盖迭代、递归、分治、数学公式等不同算法思想。
+                对比各方法的时间复杂度与适用场景。
+            </p>
+
+            <div class="tags">
+                <span class="tag">#for循环</span>
+                <span class="tag">#递归</span>
+                <span class="tag">#分治法</span>
+                <span class="tag">#数学公式(O(1))</span>
+                <span class="tag">#生成器</span>
+            </div>
+
+            <h3>📌 普通数列求和（7种方法）</h3>
+            <div class="code-block">
+                <pre><code># 方法1: for循环
+def sum_for(n):
+    total = 0
+    for i in n:
+        total += i
+    return total
+
+# 方法2: while循环
+def sum_while(n):
+    total = 0
+    i = 0
+    while i < len(n):
+        total += n[i]
+        i += 1
+    return total
+
+# 方法3: 递归
+def sum_recursion(n):
+    if n == []:
+        return 0
+    return n[0] + sum_recursion(n[1:])
+
+# 方法4: 内置sum() [推荐]
+def sum_builtin(n):
+    return sum(n)
+
+# 方法5: 列表推导式
+def sum_comprehension(n):
+    return sum([i for i in n])
+
+# 方法6: 生成器表达式（节省内存）
+def sum_generator(n):
+    return sum((i for i in n))
+
+# 方法7: 分治法
+def sum_divide(n):
+    if len(n) <= 1:
+        return n[0] if n else 0
+    mid = len(n) // 2
+    return sum_divide(n[:mid]) + sum_divide(n[mid:])</code></pre>
+            </div>
+
+            <!-- 方法对比表格 -->
+            <h3>📊 方法对比总结</h3>
+            <table class="method-table">
+                <thead>
+                    <tr><th>方法</th><th>时间复杂度</th><th>优点</th><th>适用场景</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>for/while循环</td><td>O(n)</td><td>直观易懂</td><td>通用场景</td></tr>
+                    <tr><td>递归</td><td>O(n)</td><td>代码简洁</td><td>函数式编程</td></tr>
+                    <tr><td>内置sum()</td><td>O(n)</td><td>C语言实现，最快</td><td>🌟 首选方法</td></tr>
+                    <tr><td>生成器</td><td>O(n)</td><td>内存高效</td><td>大数据集</td></tr>
+                    <tr><td>分治法</td><td>O(n log n)</td><td>并行计算思想</td><td>学习分治策略</td></tr>
+                </tbody>
+            </table>
+
+            <h3>📐 特殊数列：等差数列（O(1)公式法）</h3>
+            <div class="code-block">
+                <pre><code># 公式1：S = (首项 + 末项) × 项数 / 2
+def sum_arithmetic(first, last, n):
+    return (first + last) * n // 2
+
+# 公式2：S = n × [2×首项 + (n-1)×公差] / 2
+def sum_arithmetic_by_diff(first, diff, n):
+    return n * (2 * first + (n - 1) * diff) // 2
+
+# 示例：1+2+...+100 = 5050</code></pre>
+            </div>
+
+            <h3>📐 特殊数列：等比数列（O(1)公式法）</h3>
+            <div class="code-block">
+                <pre><code>def sum_geometric(first, q, n):
+    """等比数列求和"""
+    if q == 1:
+        return first * n
+    return first * (1 - q ** n) / (1 - q)
+
+# 示例：1+2+4+8+16 = 31</code></pre>
+            </div>
+
+            <div class="chart-note">
+                <strong>💡 学习心得</strong><br>
+                1️⃣ 同一个问题可以有多种不同思路的解法<br>
+                2️⃣ 数学公式往往比循环效率高得多（O(1) vs O(n)）<br>
+                3️⃣ Python内置函数通常是最佳选择<br>
+                4️⃣ 递归和分治虽然优雅，但实际使用中要权衡效率
+            </div>
+
+            <!-- 运行结果展示 -->
+            <h3>✅ 运行结果验证</h3>
+            <div class="code-block">
+                <pre><code>>>> sum_for([1,2,3,4,5])
+15
+>>> sum_arithmetic(1, 100, 100)
+5050
+>>> sum_geometric(1, 2, 5)
+31.0</code></pre>
+            </div>
+        </div>
+
+        <!-- ==================== 项目4：AI辅助开发报告 ==================== -->
+        <div class="project-card">
+            <div class="project-header">
+                <span class="project-icon">🤖</span>
+                <h2 class="project-title">AI辅助开发实践报告</h2>
+                <span class="project-badge">TRAE</span>
+                <span class="project-badge">效率提升70%</span>
+            </div>
+            <p class="project-description">
+                使用TRAE AI编程助手完成《大学生活模拟器》的开发，记录AI在代码生成、调试、优化各环节的实际应用效果。
+            </p>
+
+            <div class="stats-grid">
+                <div class="stat-item">⏱️ 传统编码: ~290分钟</div>
+                <div class="stat-item">⚡ TRAE辅助: ~88分钟</div>
+                <div class="stat-item">📈 效率提升: 70%</div>
+            </div>
+
+            <h3>🔧 TRAE主要应用场景</h3>
+            <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                <li>📝 批量生成随机事件（24个事件，10分钟完成）</li>
+                <li>🐛 属性溢出修复（使用 max/min 钳位）</li>
+                <li>💰 金钱不足校验逻辑</li>
+                <li>📊 进度条可视化函数</li>
+                <li>🏆 结局评分系统</li>
+            </ul>
+
+            <div class="chart-note">
+                <strong>⚠️ AI无法替代的工作</strong><br>
+                • 核心玩法创意设计<br>
+                • 数值平衡的直觉调整<br>
+                • 游戏体验的主观优化<br>
+                • 代码结构与可维护性设计
+            </div>
+
+            <div class="code-block">
+                <pre><code># TRAE生成的典型代码片段：属性边界检查
+self.gpa = max(0, min(100, self.gpa + gpa_delta))
+self.health = max(0, min(100, self.health + health_delta))
+self.mental = max(0, min(100, self.mental + mental_delta))
+self.social = max(0, min(100, self.social + social_delta))
+self.money = max(0, self.money + money_delta)</code></pre>
+            </div>
+        </div>
+
+        <!-- ==================== GitHub仓库链接 ==================== -->
+        <div class="project-card" style="text-align: center; background: linear-gradient(135deg, #667eea10, #764ba210);">
+            <div class="project-header" style="justify-content: center;">
+                <span class="project-icon">🐙</span>
+                <h2 class="project-title">GitHub 仓库</h2>
+            </div>
+            <p style="margin-bottom: 1rem;">所有项目代码已开源，欢迎 Star 和 Fork！</p>
+            <a href="https://github.com/YileDing/Yile-Ding.github.io" class="btn" target="_blank">📂 访问 GitHub 仓库 →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2026 丁奕乐 | Python 作品集 | 基于 GitHub Pages 构建</p>
+        <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 0.5rem;">🚀 持续更新中 · 欢迎交流学习</p>
+    </footer>
 </body>
 </html>

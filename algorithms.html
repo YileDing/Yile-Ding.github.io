@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数列求和算法 | 丁奕乐</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f7fa;
+            color: #1e1e2f;
+            line-height: 1.5;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 1000px; margin: 0 auto; background: white; }
+        .header { border-bottom: 3px solid #2c3e50; padding-bottom: 1rem; margin-bottom: 2rem; }
+        .header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .back-link { display: inline-block; margin-bottom: 1rem; color: #2c3e50; }
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0 1.5rem 0;
+            padding: 0.8rem 0;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .nav-links a {
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 0.3rem 0.8rem;
+            background: #f1f5f9;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.8rem 0;
+            border-bottom: 2px solid #eaeef2;
+            padding-bottom: 0.3rem;
+        }
+        pre {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            margin: 1rem 0;
+        }
+        code { font-family: monospace; background: #f1f5f9; padding: 0.1rem 0.2rem; border-radius: 4px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        th { background: #f1f5f9; }
+        .note { border-left: 4px solid #64748b; background: #f8fafc; padding: 0.8rem 1rem; margin: 1rem 0; }
+        .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; font-size: 0.8rem; text-align: center; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-link">← 返回首页</a>
+    <div class="header">
+        <h1>🔢 数列求和：一题多解</h1>
+        <div>7种方法 + 等差数列/等比数列 O(1) 公式</div>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">🏠 首页</a>
+        <a href="game.html">🎮 大学生活模拟器</a>
+        <a href="economics.html">📈 经济数据分析</a>
+        <a href="algorithms.html">🔢 数列求和</a>
+        <a href="ai-report.html">🤖 AI报告</a>
+    </div>
+
+    <div class="section-title">📌 普通数列求和（7种方法）</div>
+    <pre><code># 方法1: for循环
+def sum_for(n):
+    total = 0
+    for i in n:
+        total += i
+    return total
+
+# 方法2: while循环
+def sum_while(n):
+    total = 0
+    i = 0
+    while i < len(n):
+        total += n[i]
+        i += 1
+    return total
+
+# 方法3: 递归
+def sum_recursion(n):
+    if n == []:
+        return 0
+    return n[0] + sum_recursion(n[1:])
+
+# 方法4: 内置sum() [推荐]
+def sum_builtin(n):
+    return sum(n)
+
+# 方法5: 列表推导式
+def sum_comprehension(n):
+    return sum([i for i in n])
+
+# 方法6: 生成器表达式（节省内存）
+def sum_generator(n):
+    return sum((i for i in n))
+
+# 方法7: 分治法
+def sum_divide(n):
+    if len(n) <= 1:
+        return n[0] if n else 0
+    mid = len(n) // 2
+    return sum_divide(n[:mid]) + sum_divide(n[mid:])</code></pre>
+
+    <div class="section-title">📊 方法对比总结</div>
+    <table>
+        <thead><tr><th>方法</th><th>代码示例</th><th>时间复杂度</th><th>适用场景</th></tr></thead>
+        <tbody>
+            <tr><td>for循环</td><td><code>for i in n: total+=i</code></td><td>O(n)</td><td>通用，易理解</td></tr>
+            <tr><td>while循环</td><td><code>while i&lt;len(n): total+=n[i]</code></td><td>O(n)</td><td>需要索引操作</td></tr>
+            <tr><td>递归</td><td><code>return n[0] + sum_rec(n[1:])</code></td><td>O(n)</td><td>函数式编程</td></tr>
+            <tr><td>内置sum()</td><td><code>sum(n)</code></td><td>O(n)</td><td>⭐ 最优选择</td></tr>
+            <tr><td>列表推导式</td><td><code>sum([i for i in n])</code></td><td>O(n)</td><td>需要中间列表</td></tr>
+            <tr><td>生成器</td><td><code>sum((i for i in n))</code></td><td>O(n)</td><td>大数据节省内存</td></tr>
+            <tr><td>分治法</td><td><code>sum_divide(left) + sum_divide(right)</code></td><td>O(n log n)</td><td>学习并行思想</td></tr>
+        </tbody>
+    </table>
+
+    <div class="section-title">📐 等差数列（O(1)公式法）</div>
+    <pre><code># 公式1：S = (首项 + 末项) × 项数 / 2
+def sum_arithmetic(first, last, n):
+    return (first + last) * n // 2
+
+# 公式2：S = n × [2×首项 + (n-1)×公差] / 2
+def sum_arithmetic_by_diff(first, diff, n):
+    return n * (2 * first + (n - 1) * diff) // 2
+
+# 示例：1+2+...+100 = 5050
+print(sum_arithmetic(1, 100, 100))  # 输出: 5050</code></pre>
+
+    <div class="section-title">📐 等比数列（O(1)公式法）</div>
+    <pre><code>def sum_geometric(first, q, n):
+    """等比数列求和"""
+    if q == 1:
+        return first * n
+    return first * (1 - q ** n) / (1 - q)
+
+# 示例：1+2+4+8+16 = 31.0
+print(sum_geometric(1, 2, 5))  # 输出: 31.0</code></pre>
+
+    <div class="section-title">✅ 运行结果验证</div>
+    <pre><code>>>> sum_for([1,2,3,4,5])
+15
+>>> sum_arithmetic(1, 100, 100)
+5050
+>>> sum_geometric(1, 2, 5)
+31.0</code></pre>
+
+    <div class="note">
+        <strong>💡 算法心得</strong><br>
+        1️⃣ 同一个问题可以有多种不同思路的解法<br>
+        2️⃣ 数学公式往往比循环效率高得多（O(1) vs O(n)）<br>
+        3️⃣ Python内置函数通常是最佳选择<br>
+        4️⃣ 递归和分治虽然优雅，但实际使用中要权衡效率
+    </div>
+
+    <div class="footer">
+        © 2026 丁奕乐 | 完整代码已上传至 GitHub 仓库
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大学生活模拟器 | 丁奕乐</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f7fa;
+            color: #1e1e2f;
+            line-height: 1.5;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 1000px; margin: 0 auto; background: white; }
+        .header { border-bottom: 3px solid #2c3e50; padding-bottom: 1rem; margin-bottom: 2rem; }
+        .header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .back-link { display: inline-block; margin-bottom: 1rem; color: #2c3e50; }
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0 1.5rem 0;
+            padding: 0.8rem 0;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .nav-links a {
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 0.3rem 0.8rem;
+            background: #f1f5f9;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.8rem 0;
+            border-bottom: 2px solid #eaeef2;
+            padding-bottom: 0.3rem;
+        }
+        pre {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            margin: 1rem 0;
+        }
+        code { font-family: monospace; background: #f1f5f9; padding: 0.1rem 0.2rem; border-radius: 4px; }
+        .stats-grid { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: 1rem 0; }
+        .stat-item { background: #f1f5f9; padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.9rem; }
+        .progress-demo { background: #e2e8f0; height: 20px; width: 200px; margin: 0.3rem 0; }
+        .progress-fill { background: #2c3e50; height: 100%; width: 50%; color: white; font-size: 0.7rem; text-align: center; line-height: 20px; }
+        .note { border-left: 4px solid #64748b; background: #f8fafc; padding: 0.8rem 1rem; margin: 1rem 0; }
+        .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; font-size: 0.8rem; text-align: center; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-link">← 返回首页</a>
+    <div class="header">
+        <h1>🎮 大学生活模拟器</h1>
+        <div>Python 文字决策游戏 | AI辅助开发</div>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">🏠 首页</a>
+        <a href="game.html">🎮 大学生活模拟器</a>
+        <a href="economics.html">📈 经济数据分析</a>
+        <a href="algorithms.html">🔢 数列求和</a>
+        <a href="ai-report.html">🤖 AI报告</a>
+    </div>
+
+    <div class="section-title">📖 游戏简介</div>
+    <p>玩家在24个月（2学年）内，通过每月选择一项活动（学习、健身、社团、社交、兼职、休息），随机触发不同事件，影响五项属性值。游戏包含奖学金、休学、企业单招等特殊机制，并根据最终综合评分给出不同结局。</p>
+
+    <div class="section-title">📊 属性系统（初始值）</div>
+    <div class="stats-grid">
+        <div class="stat-item">📚 学习成绩: 50</div>
+        <div class="stat-item">💪 身体健康: 50</div>
+        <div class="stat-item">🧠 心理健康: 50</div>
+        <div class="stat-item">👥 社会实践: 10</div>
+        <div class="stat-item">💰 金钱: 500元</div>
+    </div>
+
+    <div class="section-title">📊 进度条功能说明</div>
+    <div class="note">
+        <strong>什么是50%进度条？</strong><br>
+        进度条将0-100的数值以图形化方式展示，代码实现如下：
+    </div>
+    <pre><code>def get_progress_bar(self, value, label, bar_char='#'):
+    bar_length = 20
+    percent = value / 100
+    filled_length = int(bar_length * percent)
+    bar = bar_char * filled_length + '-' * (bar_length - filled_length)
+    return f"{label}: [{bar}] {value}"</code></pre>
+    <div>示例效果：</div>
+    <div class="progress-demo"><div class="progress-fill" style="width:50%">50%</div></div>
+    <div>🔴 0-30危险区 | 🟡 31-70正常区 | 🟢 71-100优秀区</div>
+
+    <div class="section-title">🎲 随机事件示例</div>
+    <pre><code>self.options = {
+    '1': {
+        'name': '去图书馆学习',
+        'events': [
+            ("你在图书馆偶遇了一位教授，给了你学习建议", 3, 0, -1, 0, 0),
+            ("你找到了一本非常有用的参考书", 4, 0, -1, 0, 0),
+            ("你认识了学习伙伴，一起进步", 4, 0, -2, 1, 0),
+            ("你熬夜学习，第二天疲惫", 2, -3, -2, 0, 0)
+        ]
+    },
+    '2': {'name': '去健身房锻炼', ...},
+    '3': {'name': '参加社团活动', ...},
+    '4': {'name': '和朋友出去玩', ...},
+    '5': {'name': '做兼职工作', ...},
+    '6': {'name': '休息一天', ...}
+}</code></pre>
+
+    <div class="section-title">🏆 结局系统</div>
+    <ul style="margin-left: 1.5rem;">
+        <li>完美结局：final_score ≥ 85</li>
+        <li>良好结局：final_score ≥ 70</li>
+        <li>普通结局：final_score ≥ 55</li>
+        <li>勉强结局：final_score ≥ 40</li>
+        <li>遗憾结局：final_score < 40</li>
+        <li>休学结局：health < 20 或 mental < 20</li>
+        <li>单招结局：social > 80（被大企业提前录取）</li>
+    </ul>
+
+    <div class="section-title">🎮 完整游戏代码</div>
+    <pre><code># 完整代码文件：college_simulator.py
+# 共约280行，包含CollegeSimulator类完整实现
+# 可在GitHub仓库中查看完整代码</code></pre>
+
+    <div class="footer">
+        © 2026 丁奕乐 | 完整代码已上传至 GitHub 仓库
+    </div>
+</div>
+</body>
+</html>

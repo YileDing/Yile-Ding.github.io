@@ -3,572 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>丁奕乐 | Python作品集 · 数据分析 · 算法实现 · AI辅助开发</title>
+    <title>丁奕乐 | Python作品集</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            color: #2c3e50;
-            line-height: 1.6;
+            background: #f5f7fa;
+            color: #1e1e2f;
+            line-height: 1.5;
+            padding: 2rem 1rem;
         }
-
-        .navbar {
-            background: rgba(44, 62, 80, 0.95);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .nav-content {
-            max-width: 1200px;
-            margin: 0 auto;
+        .container { max-width: 1000px; margin: 0 auto; background: white; }
+        .header { border-bottom: 3px solid #2c3e50; padding-bottom: 1rem; margin-bottom: 2rem; }
+        .header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .nav-links {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
-        .nav-links a { color: white; text-decoration: none; transition: opacity 0.3s; }
-        .nav-links a:hover { opacity: 0.7; }
-
-        .hero {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
-        .hero p { font-size: 1.2rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
-
-        .container { max-width: 1200px; margin: 2rem auto; padding: 0 2rem; }
-
-        /* 知识点网格 */
-        .knowledge-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .knowledge-card {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        .knowledge-card:hover { transform: translateY(-3px); }
-        .knowledge-card h3 { color: #667eea; margin-bottom: 1rem; border-left: 4px solid #667eea; padding-left: 0.8rem; }
-        .knowledge-list { list-style: none; }
-        .knowledge-list li { padding: 0.4rem 0; border-bottom: 1px solid #eee; }
-        .knowledge-list li:before { content: "✓ "; color: #667eea; font-weight: bold; }
-
-        /* 项目卡片 */
-        .project-card {
-            background: white;
-            border-radius: 16px;
-            padding: 1.8rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        .project-card:hover { transform: translateY(-5px); }
-        .project-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap; }
-        .project-icon { font-size: 2rem; }
-        .project-title { font-size: 1.6rem; font-weight: 600; }
-        .project-badge { background: #667eea; color: white; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.8rem; }
-
-        .code-block {
-            background: #1e1e1e;
-            color: #d4d4d4;
-            padding: 1rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 1rem 0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-        }
-
-        /* 对比卡片样式 */
-        .comparison-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
             margin: 1.5rem 0;
+            padding: 1rem 0;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
         }
-        .comparison-card {
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: transform 0.3s;
+        .nav-links a {
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 0.3rem 0.8rem;
+            background: #f1f5f9;
+            border-radius: 20px;
+            font-size: 0.9rem;
         }
-        .comparison-card.before {
-            background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 100%);
-            border-left: 4px solid #e74c3c;
+        .nav-links a:hover { background: #e2e8f0; }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem 0;
+            border-bottom: 2px solid #eaeef2;
+            padding-bottom: 0.3rem;
         }
-        .comparison-card.after {
-            background: linear-gradient(135deg, #f0fff4 0%, #d4fcdc 100%);
-            border-left: 4px solid #27ae60;
-        }
-        .comparison-card h4 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .time-badge {
-            font-size: 1.8rem;
-            font-weight: bold;
+        .project-list {
+            display: grid;
+            gap: 1rem;
             margin: 1rem 0;
         }
-        .time-badge.before { color: #e74c3c; }
-        .time-badge.after { color: #27ae60; }
-
-        .efficiency-stats {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #f8f9fa;
-            padding: 1rem;
-            border-radius: 12px;
-            margin: 1rem 0;
+        .project-item {
+            border: 1px solid #e2e8f0;
+            padding: 1rem 1.2rem;
+            transition: background 0.2s;
         }
-        .efficiency-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .progress-bar-demo {
-            background: #e0e0e0;
-            border-radius: 10px;
-            height: 24px;
-            width: 100%;
-            margin: 0.5rem 0;
-            overflow: hidden;
-        }
-        .progress-fill {
-            background: linear-gradient(90deg, #667eea, #764ba2);
-            border-radius: 10px;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-
-        .stats-grid { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0; }
-        .stat-item { background: #f0f0f0; border-radius: 8px; padding: 0.5rem 1rem; }
-
-        .method-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-        .method-table th, .method-table td { border: 1px solid #ddd; padding: 0.5rem; text-align: left; }
-        .method-table th { background: #667eea; color: white; }
-
-        .chart-note { background: #e7f3ff; border-left: 4px solid #3498db; padding: 1rem; margin: 1rem 0; border-radius: 8px; }
-        .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; }
-        .tag { background: #e0e7ff; color: #4f46e5; padding: 0.2rem 0.6rem; border-radius: 15px; font-size: 0.75rem; }
-        .btn { display: inline-block; background: #667eea; color: white; padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; margin-top: 1rem; }
-        .btn:hover { background: #5a67d8; }
-
-        .footer { text-align: center; padding: 2rem; background: #2c3e50; color: white; margin-top: 3rem; }
-
-        @media (max-width: 768px) {
-            .container { padding: 0 1rem; }
-            .project-title { font-size: 1.3rem; }
-            .knowledge-grid { grid-template-columns: 1fr; }
-            .comparison-container { grid-template-columns: 1fr; }
+        .project-item:hover { background: #f8fafc; }
+        .project-item h3 { margin-bottom: 0.3rem; }
+        .project-item a { text-decoration: none; color: #2c3e50; font-weight: 500; }
+        .project-item p { color: #475569; font-size: 0.9rem; margin-top: 0.3rem; }
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.8rem;
+            text-align: center;
+            color: #64748b;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="nav-content">
-            <div class="logo">🐍 丁奕乐 | Python作品集</div>
-            <div class="nav-links">
-                <a href="#knowledge">知识点</a>
-                <a href="#ai">AI对比</a>
-                <a href="#game">大学生活模拟器</a>
-                <a href="#economics">经济数据分析</a>
-                <a href="#algorithms">数列求和</a>
-            </div>
+<div class="container">
+    <div class="header">
+        <h1>🐍 丁奕乐 · Python 作品集</h1>
+        <div>数据分析 · 算法实现 · 游戏开发 · AI辅助编程</div>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">🏠 首页</a>
+        <a href="game.html">🎮 大学生活模拟器</a>
+        <a href="economics.html">📈 宏观经济数据分析</a>
+        <a href="algorithms.html">🔢 数列求和算法</a>
+        <a href="ai-report.html">🤖 AI辅助开发报告</a>
+    </div>
+
+    <div class="section-title">📚 作品列表</div>
+    <div class="project-list">
+        <div class="project-item">
+            <h3><a href="game.html">🎮 大学生活模拟器</a></h3>
+            <p>文字决策类游戏，管理GPA/健康/心理/社交/金钱，24个月后触发不同结局。</p>
         </div>
-    </nav>
-
-    <section class="hero">
-        <h1>🐍 丁奕乐的 Python 作品集</h1>
-        <p>数据分析 · 算法实现 · 游戏开发 · AI辅助编程</p>
-    </section>
-
-    <div class="container">
-        <!-- ==================== 知识点汇总 ==================== -->
-        <h2 style="margin-bottom: 1.5rem;" id="knowledge">📚 核心知识体系</h2>
-        <div class="knowledge-grid">
-            <div class="knowledge-card">
-                <h3>🐍 Python 基础语法</h3>
-                <ul class="knowledge-list">
-                    <li>变量与数据类型（int, float, str, list）</li>
-                    <li>条件判断（if-elif-else）</li>
-                    <li>循环结构（for循环、while循环）</li>
-                    <li>函数定义与参数传递（def）</li>
-                    <li>类与面向对象（class, __init__, self）</li>
-                </ul>
-            </div>
-
-            <div class="knowledge-card">
-                <h3>🔢 算法与数据结构</h3>
-                <ul class="knowledge-list">
-                    <li>数列求和的7种方法（for/while/递归/sum/推导式/生成器/分治）</li>
-                    <li>等差数列公式法（O(1)时间复杂度）</li>
-                    <li>等比数列公式法（O(1)时间复杂度）</li>
-                    <li>时间复杂度分析（O(1)、O(n)、O(n log n)）</li>
-                    <li>递归思想与分治策略</li>
-                </ul>
-            </div>
-
-            <div class="knowledge-card">
-                <h3>📊 数据分析（pandas + matplotlib）</h3>
-                <ul class="knowledge-list">
-                    <li>CSV文件读取（pd.read_csv）</li>
-                    <li>数据清洗与缺失值处理（dropna）</li>
-                    <li>多表合并（pd.merge）</li>
-                    <li>新列计算（同比通货膨胀率）</li>
-                    <li>散点图与趋势线拟合（np.polyfit）</li>
-                    <li>相关系数计算（.corr）</li>
-                    <li>菲利普斯曲线（经济学概念）</li>
-                </ul>
-            </div>
-
-            <div class="knowledge-card">
-                <h3>🎮 游戏开发</h3>
-                <ul class="knowledge-list">
-                    <li>随机事件系统（random.choice）</li>
-                    <li>数值平衡与边界控制（max/min钳位）</li>
-                    <li>进度条可视化（get_progress_bar）</li>
-                    <li>游戏循环与状态机</li>
-                    <li>经济系统（收支平衡）</li>
-                    <li>成就系统（奖学金、单招）</li>
-                </ul>
-            </div>
-
-            <div class="knowledge-card">
-                <h3>🤖 AI辅助开发（TRAE）</h3>
-                <ul class="knowledge-list">
-                    <li>效率提升：290分钟 → 88分钟（↑70%）</li>
-                    <li>批量代码生成（24个随机事件）</li>
-                    <li>边界条件自动修复</li>
-                    <li>逻辑校验自动添加</li>
-                    <li>AI局限性认知（创意设计、数值平衡需人工）</li>
-                </ul>
-            </div>
-
-            <div class="knowledge-card">
-                <h3>📈 经济学知识</h3>
-                <ul class="knowledge-list">
-                    <li>消费者价格指数（CPI）</li>
-                    <li>失业率（UNRATE）</li>
-                    <li>联邦基金利率（DFF）</li>
-                    <li>菲利普斯曲线（通胀与失业负相关）</li>
-                    <li>金融危机（2008）与COVID-19（2020）影响</li>
-                </ul>
-            </div>
+        <div class="project-item">
+            <h3><a href="economics.html">📈 宏观经济数据分析</a></h3>
+            <p>基于FRED数据库（CPI、失业率、联邦基金利率），验证菲利普斯曲线。</p>
         </div>
-
-        <!-- ==================== AI辅助开发效果对比（重点） ==================== -->
-        <div class="project-card" id="ai">
-            <div class="project-header">
-                <span class="project-icon">🤖</span>
-                <h2 class="project-title">AI辅助开发：使用前后效果对比</h2>
-                <span class="project-badge">TRAE AI编程助手</span>
-                <span class="project-badge">大学生活模拟器项目</span>
-            </div>
-
-            <div class="comparison-container">
-                <!-- 使用AI前 -->
-                <div class="comparison-card before">
-                    <h4>😰 使用AI前（传统开发）</h4>
-                    <div class="time-badge before">⏱️ 预估时间：<span style="font-size: 2rem;">290分钟</span> <span style="font-size: 1rem;">(~4.8小时)</span></div>
-                    <ul style="margin-left: 1.2rem; line-height: 1.8;">
-                        <li>❌ 容易遗漏边界条件（属性溢出）</li>
-                        <li>❌ 调试金钱不足等逻辑问题耗时</li>
-                        <li>❌ 重复性代码多，容易出错</li>
-                        <li>❌ 进度条函数需要手动设计</li>
-                        <li>❌ 结局系统需要手写5+种结局</li>
-                    </ul>
-                </div>
-
-                <!-- 使用AI后 -->
-                <div class="comparison-card after">
-                    <h4>🚀 使用AI后（TRAE辅助）</h4>
-                    <div class="time-badge after">⚡ 实际用时：<span style="font-size: 2rem;">88分钟</span> <span style="font-size: 1rem;">(~1.5小时)</span></div>
-                    <ul style="margin-left: 1.2rem; line-height: 1.8;">
-                        <li>✅ 自动添加属性边界检查（10分钟）</li>
-                        <li>✅ 自动补充金钱不足校验逻辑</li>
-                        <li>✅ 生成进度条可视化函数</li>
-                        <li>✅ 生成完整结局评分系统</li>
-                        <li>✅ 代码整洁、模块化</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- 效率提升可视化 -->
-            <div class="efficiency-stats">
-                <div style="text-align: center;">
-                    <div class="efficiency-number">-70%</div>
-                    <div style="color: #27ae60;">时间节省</div>
-                </div>
-                <div style="text-align: center;">
-                    <div class="efficiency-number">-85%</div>
-                    <div style="color: #27ae60;">Bug减少</div>
-                </div>
-                <div style="text-align: center;">
-                    <div class="efficiency-number">+3x</div>
-                    <div style="color: #27ae60;">代码产出速度</div>
-                </div>
-            </div>
-
-            <!-- 各模块效率对比表格 -->
-            <h3>📊 各开发模块效率对比</h3>
-            <table class="method-table">
-                <thead>
-                    <tr>
-                        <th>任务模块</th>
-                        <th>传统编码时间（分钟）</th>
-                        <th>TRAE辅助实际用时（分钟）</th>
-                        <th>效率提升</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>类结构与属性初始化</td><td>20</td><td>5</td><td style="color: #27ae60; font-weight: bold;">↑ 75%</td></tr>
-                    <tr><td>6类活动 + 24个随机事件</td><td>90</td><td>20</td><td style="color: #27ae60; font-weight: bold;">↑ 78%</td></tr>
-                    <tr><td>属性变化与边界检查</td><td>30</td><td>10</td><td style="color: #27ae60; font-weight: bold;">↑ 67%</td></tr>
-                    <tr><td>进度条与UI显示</td><td>20</td><td>8</td><td style="color: #27ae60; font-weight: bold;">↑ 60%</td></tr>
-                    <tr><td>特殊事件（奖学金、休学等）</td><td>40</td><td>15</td><td style="color: #27ae60; font-weight: bold;">↑ 63%</td></tr>
-                    <tr><td>游戏主循环与输入处理</td><td>30</td><td>10</td><td style="color: #27ae60; font-weight: bold;">↑ 67%</td></tr>
-                    <tr><td>结局计算与文字</td><td>20</td><td>5</td><td style="color: #27ae60; font-weight: bold;">↑ 75%</td></tr>
-                    <tr><td>调试（金钱不足、属性溢出）</td><td>40</td><td>15</td><td style="color: #27ae60; font-weight: bold;">↑ 63%</td></tr>
-                    <tr style="background: #f0f0f0; font-weight: bold;">
-                        <td>总计</td>
-                        <td>290分钟 (~4.8小时)</td>
-                        <td>88分钟 (~1.5小时)</td>
-                        <td style="color: #27ae60;">↑ 70%</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <!-- AI生成代码示例 -->
-            <h3>🤖 典型代码示例</h3>
-            <div class="code-block">
-                <pre><code># AI自动生成的随机事件（批量）
-self.options = {
-    '1': {
-        'name': '去图书馆学习',
-        'events': [
-            ("你在图书馆偶遇了一位教授，给了你学习建议", 3, 0, -1, 0, 0),
-            ("你找到了一本非常有用的参考书", 4, 0, -1, 0, 0),
-            ("你认识了学习伙伴，一起进步", 4, 0, -2, 1, 0),
-            ("你熬夜学习，第二天疲惫", 2, -3, -2, 0, 0)
-        ]
-    },
-    # ... 共6类活动，24个随机事件
-}
-
-# AI自动添加的属性边界检查（防止溢出）
-self.gpa = max(0, min(100, self.gpa + gpa_delta))
-self.health = max(0, min(100, self.health + health_delta))
-self.money = max(0, self.money + money_delta)</code></pre>
-            </div>
-
-            <!-- AI局限性 -->
-            <div class="chart-note">
-                <strong>⚠️ AI无法替代的工作（仍需人工完成）</strong><br>
-                • 🎮 核心玩法创意设计 → 需要人工构思游戏机制<br>
-                • ⚖️ 数值平衡的直觉调整 → AI生成数值后需要人工测试调整<br>
-                • ✍️ 游戏体验的主观优化 → 文案润色、交互节奏由人工设计<br>
-                • 🏗️ 代码结构与可维护性 → 人工决定整体架构<br>
-                • 🧪 游戏平衡性测试 → 需要人工反复游玩验证
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-item">📝 TRAE提示词技巧：阶梯式提问，先框架后细节</div>
-                <div class="stat-item">🐛 调试技巧：将错误输出直接复制给AI快速定位</div>
-            </div>
+        <div class="project-item">
+            <h3><a href="algorithms.html">🔢 数列求和：一题多解</a></h3>
+            <p>7种求和方法 + 等差数列/等比数列O(1)公式，时间复杂度对比。</p>
         </div>
-
-        <!-- ==================== 项目1：大学生活模拟器 ==================== -->
-        <div class="project-card" id="game">
-            <div class="project-header">
-                <span class="project-icon">🎮</span>
-                <h2 class="project-title">大学生活模拟器</h2>
-                <span class="project-badge">Python 文字游戏</span>
-                <span class="project-badge">AI辅助开发</span>
-            </div>
-            <p class="project-description">
-                一款文字决策类大学校园模拟游戏。玩家在24个月内通过选择不同活动，平衡五项数值，触发随机事件。
-            </p>
-
-            <!-- 进度条详细说明 -->
-            <div class="chart-note">
-                <strong>📊 进度条功能详解（50%的含义）</strong><br>
-                进度条是游戏中用于可视化角色能力值的组件，将0-100的数值以图形化方式展示。<br><br>
-                <strong>实现原理：</strong>
-                <div class="code-block">
-                    <pre><code>def get_progress_bar(self, value, label, bar_char='#'):
-    bar_length = 20                    # 进度条总长度
-    percent = value / 100              # 计算百分比
-    filled_length = int(bar_length * percent)  # 填充长度
-    bar = '#' * filled_length + '-' * (bar_length - filled_length)
-    return f"{label}: [{bar}] {value}"</code></pre>
-                </div>
-                <strong>示例效果：</strong>
-                <div class="progress-bar-demo"><div class="progress-fill" style="width: 50%">学习成绩: 50（初始值）</div></div>
-                <div class="progress-bar-demo"><div class="progress-fill" style="width: 30%; background: #e67e22;">心理健康: 30（低于50需注意）</div></div>
-                <div class="progress-bar-demo"><div class="progress-fill" style="width: 80%; background: #27ae60;">身体健康: 80（优秀状态）</div></div>
-                <strong>🔴 红色(0-30)危险区 | 🟡 黄色(31-70)正常区 | 🟢 绿色(71-100)优秀区</strong>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-item">📚 学习成绩: 50</div>
-                <div class="stat-item">💪 身体健康: 50</div>
-                <div class="stat-item">🧠 心理健康: 50</div>
-                <div class="stat-item">👥 社会实践: 10</div>
-                <div class="stat-item">💰 金钱: 500元</div>
-            </div>
-
-            <div class="tags">
-                <span class="tag">#面向对象</span>
-                <span class="tag">#随机事件</span>
-                <span class="tag">#数值平衡</span>
-                <span class="tag">#进度条可视化</span>
-            </div>
-        </div>
-
-        <!-- ==================== 项目2：经济数据分析 ==================== -->
-        <div class="project-card" id="economics">
-            <div class="project-header">
-                <span class="project-icon">📈</span>
-                <h2 class="project-title">宏观经济数据分析</h2>
-                <span class="project-badge">pandas + matplotlib</span>
-                <span class="project-badge">FRED数据（1948-2026）</span>
-            </div>
-            <p class="project-description">
-                基于美联储FRED数据库（CPI、失业率、联邦基金利率），分析美国经济指标，验证菲利普斯曲线。
-            </p>
-
-            <div class="code-block">
-                <pre><code>import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
-
-# 读取数据
-cpi = pd.read_csv('CPIAUCSL.csv', parse_dates=['observation_date'])
-unemp = pd.read_csv('UNRATE.csv', parse_dates=['observation_date'])
-
-# 合并并计算通货膨胀率（同比）
-df = pd.merge(cpi, unemp, on='observation_date')
-df['inflation'] = (df['CPIAUCSL'] / df['CPIAUCSL'].shift(12) - 1) * 100
-df = df[df['observation_date'] >= '2000-01-01']
-
-# 绘制菲利普斯曲线散点图 + 趋势线
-plt.scatter(df['UNRATE'], df['inflation'], alpha=0.5)
-z = np.polyfit(df['UNRATE'], df['inflation'], 1)
-p = np.poly1d(z)
-plt.plot(x_trend, p(x_trend), 'r--', label=f'Trend (slope={z[0]:.2f})')
-
-print(f'相关系数: {df["UNRATE"].corr(df["inflation"]):.3f}')</code></pre>
-            </div>
-
-            <div class="chart-note">
-                <strong>📈 关键发现</strong><br>
-                • 通货膨胀率与失业率呈现负相关（菲利普斯曲线验证）<br>
-                • 2008年金融危机：联邦基金利率从5.25%降至接近0%<br>
-                • 2020年COVID-19：失业率飙升至14.8%（历史高位）<br>
-                • 失业率与通胀率相关系数约 -0.3 ~ -0.5
-            </div>
-        </div>
-
-        <!-- ==================== 项目3：数列求和算法 ==================== -->
-        <div class="project-card" id="algorithms">
-            <div class="project-header">
-                <span class="project-icon">🔢</span>
-                <h2 class="project-title">数列求和：一题多解</h2>
-                <span class="project-badge">7种方法 + 数学公式</span>
-                <span class="project-badge">时间复杂度分析</span>
-            </div>
-
-            <!-- 方法对比表格 -->
-            <table class="method-table">
-                <thead>
-                    <tr><th>方法</th><th>代码示例</th><th>时间复杂度</th><th>适用场景</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>for循环</td><td><code>for i in n: total+=i</code></td><td>O(n)</td><td>通用，易理解</td></tr>
-                    <tr><td>while循环</td><td><code>while i&lt;len(n): total+=n[i]</code></td><td>O(n)</td><td>需要索引操作</td></tr>
-                    <tr><td>递归</td><td><code>return n[0] + sum_recursion(n[1:])</code></td><td>O(n)</td><td>函数式编程</td></tr>
-                    <tr><td>内置sum()</td><td><code>sum(n)</code></td><td>O(n)</td><td>⭐ 最优选择</td></tr>
-                    <tr><td>列表推导式</td><td><code>sum([i for i in n])</code></td><td>O(n)</td><td>需要中间列表</td></tr>
-                    <tr><td>生成器</td><td><code>sum((i for i in n))</code></td><td>O(n)</td><td>大数据省内存</td></tr>
-                    <tr><td>分治法</td><td><code>sum_divide(left) + sum_divide(right)</code></td><td>O(n log n)</td><td>学习并行思想</td></tr>
-                </tbody>
-            </table>
-
-            <div class="code-block">
-                <pre><code># 等差数列公式（O(1)效率！比循环快无数倍）
-def sum_arithmetic(first, last, n):
-    return (first + last) * n // 2
-# 1+2+...+100 = 5050
-
-# 等比数列公式（O(1)效率！）
-def sum_geometric(first, q, n):
-    if q == 1: return first * n
-    return first * (1 - q ** n) / (1 - q)
-# 1+2+4+8+16 = 31.0</code></pre>
-            </div>
-
-            <div class="chart-note">
-                <strong>💡 算法心得</strong><br>
-                • 数学公式 > 循环 > 递归（效率对比）<br>
-                • 内置sum()是Python最推荐的求和方式<br>
-                • 递归虽然优雅，但存在栈溢出风险<br>
-                • 分治法适合学习并行计算思想
-            </div>
-        </div>
-
-        <!-- GitHub仓库链接 -->
-        <div class="project-card" style="text-align: center; background: linear-gradient(135deg, #667eea10, #764ba210);">
-            <div class="project-header" style="justify-content: center;">
-                <span class="project-icon">🐙</span>
-                <h2 class="project-title">GitHub 仓库</h2>
-            </div>
-            <p>📊 数据文件：CPIAUCSL.csv · UNRATE.csv · DFF.csv（1948-2026）</p>
-            <p>🎮 游戏项目：大学生活模拟器（完整代码）</p>
-            <p>🔢 算法项目：数列求和7种方法实现</p>
-            <a href="https://github.com/YileDing/Yile-Ding.github.io" class="btn" target="_blank">📂 访问 GitHub 仓库 →</a>
+        <div class="project-item">
+            <h3><a href="ai-report.html">🤖 AI辅助开发报告</a></h3>
+            <p>TRAE辅助开发大学生活模拟器，效率提升70%的完整对比分析。</p>
         </div>
     </div>
 
-    <footer class="footer">
-        <p>© 2026 丁奕乐 | Python 作品集 | 基于 GitHub Pages 构建</p>
-        <p style="font-size: 0.8rem;">🐍 数据结构 · 算法 · 数据分析 · 游戏开发 · AI辅助编程</p>
-        <p style="font-size: 0.75rem; margin-top: 0.5rem;">⚡ AI辅助开发效率提升70% | 传统编码290min → TRAE辅助88min</p>
-    </footer>
+    <div class="footer">
+        © 2026 丁奕乐 | GitHub: YileDing/Yile-Ding.github.io | 数据来源: FRED
+    </div>
+</div>
 </body>
 </html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>丁奕乐 · 作品集 | Python 数据分析与开发</title>
+    <style>
+        /* ---------- 极简重置 + 基础排版 ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #ffffff;
+            color: #1e1e2f;
+            line-height: 1.5;
+            padding: 2rem 1rem;
+        }
+
+        /* 内容容器 — 无装饰，仅控制宽度 */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+        }
+
+        /* 头部区域：纯粹文字 */
+        .header {
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .header .sub {
+            color: #2c3e50;
+            font-size: 1rem;
+            border-left: 3px solid #ccc;
+            padding-left: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        /* 章节标题 */
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.3rem;
+            border-bottom: 2px solid #eaeef2;
+        }
+
+        /* 卡片布局（仅用于组织信息，无阴影/圆角装饰） */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-card {
+            border: 1px solid #e2e8f0;
+            padding: 1.2rem 1.5rem;
+            background: #fefefe;
+        }
+
+        .info-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            border-left: 3px solid #2c3e50;
+            padding-left: 0.6rem;
+        }
+
+        .info-card ul {
+            padding-left: 1.2rem;
+        }
+
+        .info-card li {
+            margin: 0.4rem 0;
+        }
+
+        /* 表格基础样式 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            border: 1px solid #cbd5e1;
+            padding: 0.6rem 0.8rem;
+            text-align: left;
+            background-color: #ffffff;
+        }
+
+        .data-table th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+
+        /* 代码块 — 无彩色高亮，仅等宽 + 背景 */
+        pre {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: monospace;
+            background: #f1f5f9;
+            padding: 0.1rem 0.2rem;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* 简单说明框 */
+        .note {
+            border-left: 4px solid #64748b;
+            background: #f8fafc;
+            padding: 0.8rem 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        /* 对比卡片 (AI before/after) */
+        .comparison {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .comparison > div {
+            flex: 1;
+            border: 1px solid #e2e8f0;
+            padding: 1rem 1.2rem;
+            background: #fff;
+        }
+        .comparison h4 {
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #eef2ff;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-weight: normal;
+            margin-left: 0.5rem;
+        }
+
+        hr {
+            margin: 1.5rem 0;
+            border: 0;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        /* 页脚无装饰 */
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.8rem;
+            color: #475569;
+            text-align: center;
+        }
+
+        /* 简单进度条示意 (完全功能化展示，无美术) */
+        .progress-sample {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin: 0.5rem 0;
+        }
+        .bar-bg {
+            background: #e2e8f0;
+            width: 200px;
+            height: 18px;
+        }
+        .bar-fill {
+            background: #2c3e50;
+            height: 100%;
+            width: 50%;
+            text-align: right;
+            line-height: 18px;
+            color: white;
+            font-size: 0.7rem;
+            padding-right: 4px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- 头部：仅文字 -->
+    <div class="header">
+        <h1>丁奕乐 · Python 作品集</h1>
+        <div class="sub">数据分析 / 算法实现 / 游戏开发 / AI辅助编程</div>
+        <div style="margin-top: 0.5rem; font-size:0.85rem; color:#334155;">
+            📁 基于 GitHub Pages | 项目代码 + 经济数据集 (CPIAUCSL, UNRATE, DFF)
+        </div>
+    </div>
+
+    <!-- ========= 1. 知识点概览 ========= -->
+    <div class="section-title">📚 核心知识点体系</div>
+    <div class="grid-2">
+        <div class="info-card"><h3>🐍 Python 基础</h3><ul><li>数据类型 / 条件判断 / 循环</li><li>函数定义与参数传递</li><li>类与面向对象 (class, self, __init__)</li></ul></div>
+        <div class="info-card"><h3>🔢 算法与数据结构</h3><ul><li>数列求和 7 种解法 (迭代/递归/分治/sum/生成器)</li><li>等差数列 / 等比数列 O(1) 公式</li><li>时间复杂度分析 (O(1), O(n), O(n log n))</li></ul></div>
+        <div class="info-card"><h3>📊 数据分析 (pandas + matplotlib)</h3><ul><li>CSV 读取 / 数据清洗 / 多表合并</li><li>同比通货膨胀率计算 (shift)</li><li>散点图 + 趋势线拟合 / 相关系数</li><li>菲利普斯曲线 (经济学应用)</li></ul></div>
+        <div class="info-card"><h3>🎮 游戏开发 (大学生活模拟器)</h3><ul><li>随机事件池 (random.choice)</li><li>数值边界控制 (max/min 钳位)</li><li>进度条可视化 / 经济系统</li><li>成就与多结局 (奖学金/单招)</li></ul></div>
+        <div class="info-card"><h3>🤖 AI 辅助开发 (TRAE)</h3><ul><li>效率提升 70% (290min → 88min)</li><li>批量生成事件代码 / 边界条件自动修复</li><li>逻辑校验自动补充</li><li>人工主导创意 & 数值平衡</li></ul></div>
+        <div class="info-card"><h3>📈 经济学数据指标</h3><ul><li>CPI (消费者价格指数) 1947–2026</li><li>失业率 (UNRATE) 1948–2026</li><li>联邦基金利率 (DFF) 1954–2026</li><li>2008 金融危机 / COVID-19 影响</li></ul></div>
+    </div>
+
+    <!-- ========= 2. AI 辅助开发效果对比（核心） ========= -->
+    <div class="section-title">🤖 AI 辅助开发 · 使用前后对比</div>
+    <div class="comparison">
+        <div>
+            <h4>📌 传统开发 (无AI)</h4>
+            <ul style="margin-left: 1.2rem;">
+                <li>手写 24 个随机事件 → 繁琐易错</li>
+                <li>边界条件 (属性溢出) 容易遗漏</li>
+                <li>金钱不足、循环逻辑手动调试</li>
+                <li>进度条 / 结局系统逐行编写</li>
+            </ul>
+            <div style="margin-top:0.8rem;"><strong>⏱️ 预估总耗时：290 分钟</strong> (≈4.8小时)</div>
+        </div>
+        <div>
+            <h4>⚡ TRAE 辅助开发</h4>
+            <ul style="margin-left: 1.2rem;">
+                <li>批量生成 6 类活动 + 24 个随机事件</li>
+                <li>自动添加 max/min 边界防护</li>
+                <li>自动生成金钱校验 & 事件提示</li>
+                <li>进度条函数 / 结局评分一键生成</li>
+            </ul>
+            <div style="margin-top:0.8rem;"><strong>✅ 实际总耗时：88 分钟</strong> (≈1.5小时)</div>
+            <div style="margin-top:0.5rem; font-weight:500;">🚀 整体效率提升 70%</div>
+        </div>
+    </div>
+
+    <!-- 各模块效率对比表（纯数据） -->
+    <table class="data-table">
+        <thead><tr><th>开发模块</th><th>传统编码 (min)</th><th>TRAE辅助 (min)</th><th>提升</th></tr></thead>
+        <tbody>
+            <tr><td>类结构与属性初始化</td><td>20</td><td>5</td><td>75%</td></tr>
+            <tr><td>随机事件池 (24个事件)</td><td>90</td><td>20</td><td>78%</td></tr>
+            <tr><td>属性变化+边界检查</td><td>30</td><td>10</td><td>67%</td></tr>
+            <tr><td>进度条与UI显示</td><td>20</td><td>8</td><td>60%</td></tr>
+            <tr><td>特殊事件 (奖学金/休学)</td><td>40</td><td>15</td><td>63%</td></tr>
+            <tr><td>主循环+输入处理</td><td>30</td><td>10</td><td>67%</td></tr>
+            <tr><td>结局系统</td><td>20</td><td>5</td><td>75%</td></tr>
+            <tr><td>调试 (溢出/金钱)</td><td>40</td><td>15</td><td>63%</td></tr>
+            <tr style="background:#f8fafc;"><td><strong>总计</strong></td><td><strong>290 min</strong></td><td><strong>88 min</strong></td><td><strong>↑70%</strong></td></tr>
+        </tbody>
+    </table>
+
+    <!-- AI 生成的典型代码示例 -->
+    <div class="note">
+        <strong>🤖 AI 生成的代码示例 — 边界保护与随机事件</strong>
+    </div>
+    <pre><code># 属性钳位 (自动防止数值超过 0~100)
+self.gpa = max(0, min(100, self.gpa + gpa_delta))
+self.health = max(0, min(100, self.health + health_delta))
+
+# 随机事件池 (部分)
+self.options = {
+    '1': { 'name': '去图书馆学习',
+           'events': [ ("偶遇教授，学习效率提升", 3,0,-1,0,0),
+                       ("熬夜学习，次日疲惫", 2,-3,-2,0,0) ] },
+    '2': { 'name': '去健身房锻炼',
+           'events': [ ("参加运动会获奖", 0,1,1,0,0) ] }
+}</code></pre>
+
+    <!-- ========= 3. 大学生活模拟器 + 进度条说明 ========= -->
+    <div class="section-title">🎮 作品一 · 大学生活模拟器</div>
+    <div class="info-card" style="margin-bottom:1rem;">
+        <p>文字决策类游戏，管理 5 项属性 (GPA/健康/心理/社交/金钱) ，24个月后触发不同结局。</p>
+        <div style="margin-top: 0.8rem;"><strong>📊 进度条是什么意思？</strong><br>
+        ✅ 代码通过 <code>get_progress_bar()</code> 将数值 (0-100) 映射为 20 字符长的进度条。<br>
+        ✅ 例如“学习成绩 50” → <code>[##########----------] 50</code>，直观显示当前状态。<br>
+        ✅ 低于 20 可能触发休学结局，高于 80 有机会获得奖学金。</div>
+        <div class="progress-sample">
+            <span>学习成绩 50% :</span>
+            <div class="bar-bg"><div class="bar-fill" style="width:50%;">50%</div></div>
+        </div>
+        <div class="progress-sample">
+            <span>身体健康 80% :</span>
+            <div class="bar-bg"><div class="bar-fill" style="width:80%; background:#2c5a2e;">80%</div></div>
+        </div>
+        <div class="progress-sample">
+            <span>心理健康 30% :</span>
+            <div class="bar-bg"><div class="bar-fill" style="width:30%; background:#b91c1c;">30%</div></div>
+        </div>
+    </div>
+
+    <!-- ========= 4. 经济数据分析 ========= -->
+    <div class="section-title">📈 作品二 · 宏观经济数据分析 (FRED数据)</div>
+    <div class="info-card">
+        <p><strong>数据集：</strong> CPIAUCSL.csv (CPI) 、 UNRATE.csv (失业率) 、 DFF.csv (联邦基金利率) ，覆盖 1948–2026 年。</p>
+        <ul>
+            <li>📌 通过 <code>pandas.merge</code> 合并 CPI 与失业率，计算同比通货膨胀率</li>
+            <li>📌 绘制菲利普斯曲线 (散点图 + 趋势线) ，检验通胀与失业负相关</li>
+            <li>📌 识别 2008 金融危机 (利率骤降) 与 COVID-19 (失业率峰值 14.8%)</li>
+        </ul>
+        <div class="note" style="margin-top:0.8rem;"><strong>核心代码片段</strong></div>
+        <pre><code>import pandas as pd, numpy as np
+cpi = pd.read_csv('CPIAUCSL.csv', parse_dates=['observation_date'])
+unemp = pd.read_csv('UNRATE.csv', parse_dates=['observation_date'])
+df = pd.merge(cpi, unemp, on='observation_date')
+df['inflation'] = (df['CPIAUCSL'] / df['CPIAUCSL'].shift(12) - 1) * 100
+df = df.dropna()
+corr = df['UNRATE'].corr(df['inflation'])
+print(f'失业率与通胀相关系数: {corr:.3f}')   # 输出约 -0.3 ~ -0.5</code></pre>
+    </div>
+
+    <!-- 数据预览 (纯文本表格) -->
+    <div class="note"><strong>📋 CPI & 失业率 最新数据预览 (2025-2026)</strong></div>
+    <table class="data-table">
+        <thead><tr><th>日期</th><th>CPI (CPIAUCSL)</th><th>失业率 (%)</th></tr></thead>
+        <tbody>
+            <tr><td>2026-04-01</td><td>332.407</td><td>4.3</td></tr>
+            <tr><td>2026-03-01</td><td>330.293</td><td>4.3</td></tr>
+            <tr><td>2026-02-01</td><td>327.460</td><td>4.4</td></tr>
+            <tr><td>2026-01-01</td><td>326.588</td><td>4.3</td></tr>
+            <tr><td>2025-12-01</td><td>326.031</td><td>4.4</td></tr>
+            <tr><td>2020-04-01</td><td>256.032</td><td>14.8</td><td style="color:#b91c1c;">▲ 历史峰值(COVID)</td></tr>
+        </tbody>
+    </table>
+
+    <!-- ========= 5. 数列求和 (一题多解) ========= -->
+    <div class="section-title">🔢 作品三 · 数列求和 (7种方法 + 数学公式)</div>
+    <table class="data-table">
+        <thead><tr><th>方法</th><th>代码示意</th><th>时间复杂度</th><th>推荐场景</th></tr></thead>
+        <tbody>
+            <tr><td>for 循环</td><td><code>for i in n: s+=i</code></td><td>O(n)</td><td>通用</td></tr>
+            <tr><td>while 循环</td><td><code>while i&lt;len(n): s+=n[i]</code></td><td>O(n)</td><td>索引操作</td></tr>
+            <tr><td>递归</td><td><code>return n[0]+sum_rec(n[1:])</code></td><td>O(n)</td><td>函数式</td></tr>
+            <tr><td>内置 sum()</td><td><code>sum(n)</code></td><td>O(n)</td><td>✅ 最简洁高效</td></tr>
+            <tr><td>列表推导式</td><td><code>sum([i for i in n])</code></td><td>O(n)</td><td>生成中间列表</td></tr>
+            <tr><td>生成器</td><td><code>sum((i for i in n))</code></td><td>O(n)</td><td>大数据节省内存</td></tr>
+            <tr><td>分治法</td><td><code>sum_divide(left)+sum_divide(right)</code></td><td>O(n log n)</td><td>并行思想</td></tr>
+        </tbody>
+    </table>
+    <div class="note">
+        <strong>📐 等差数列 / 等比数列 O(1) 公式</strong><br>
+        等差数列: <code>S = (first + last) * n // 2</code> → 1+2+...+100 = 5050<br>
+        等比数列: <code>S = first * (1 - qⁿ) / (1 - q)</code> → 1+2+4+8+16 = 31.0
+    </div>
+
+    <!-- ========= 6. CSV 数据文件说明 ========= -->
+    <div class="section-title">📁 数据文件总览 (仓库内)</div>
+    <table class="data-table">
+        <thead><tr><th>文件名</th><th>描述</th><th>时间范围</th><th>记录数</th></tr></thead>
+        <tbody>
+            <tr><td>CPIAUCSL.csv</td><td>消费者价格指数 (CPI)</td><td>1947-01 – 2026-04</td><td>~950 条</td></tr>
+            <tr><td>UNRATE.csv</td><td>失业率 (月度)</td><td>1948-01 – 2026-04</td><td>~940 条</td></tr>
+            <tr><td>DFF.csv</td><td>联邦基金有效利率 (日度)</td><td>1954-07 – 2026-05</td><td>~18600+ 条</td></tr>
+        </tbody>
+    </table>
+
+    <!-- ========= 7. 项目总结与 AI 心得 ========= -->
+    <div class="section-title">📌 总结 & 实践心得</div>
+    <div class="grid-2">
+        <div class="info-card">
+            <h3>✅ AI 辅助价值</h3>
+            <ul><li>批量生成结构化代码 (事件/表格)</li><li>边界条件 / 异常处理自动补全</li><li>快速生成文档风格注释</li><li>降低重复劳动，聚焦核心逻辑</li></ul>
+        </div>
+        <div class="info-card">
+            <h3>🧠 人工主导领域</h3>
+            <ul><li>游戏机制与数值平衡设计</li><li>经济学分析视角与假设检验</li><li>最终代码架构与可维护性</li><li>文案润色与用户体验细节</li></ul>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2026 丁奕乐 · Python 作品集 · 基于 GitHub Pages 部署<br>
+        仓库地址：<a href="https://github.com/YileDing/Yile-Ding.github.io" target="_blank" style="color:#2c3e50;">YileDing/Yile-Ding.github.io</a><br>
+        所有数据集来源于 FRED 数据库 | 项目遵循 MIT 开源协议
+    </div>
+</div>
+</body>
+</html>

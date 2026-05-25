@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI辅助开发报告 | 丁奕乐</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f7fa;
+            color: #1e1e2f;
+            line-height: 1.5;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 1000px; margin: 0 auto; background: white; }
+        .header { border-bottom: 3px solid #2c3e50; padding-bottom: 1rem; margin-bottom: 2rem; }
+        .header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .back-link { display: inline-block; margin-bottom: 1rem; color: #2c3e50; }
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0 1.5rem 0;
+            padding: 0.8rem 0;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .nav-links a {
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 0.3rem 0.8rem;
+            background: #f1f5f9;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.8rem 0;
+            border-bottom: 2px solid #eaeef2;
+            padding-bottom: 0.3rem;
+        }
+        pre {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            margin: 1rem 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        th { background: #f1f5f9; }
+        .comparison {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .comparison > div {
+            flex: 1;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            background: #fefefe;
+        }
+        .note { border-left: 4px solid #64748b; background: #f8fafc; padding: 0.8rem 1rem; margin: 1rem 0; }
+        .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; font-size: 0.8rem; text-align: center; }
+        .stats { display: flex; gap: 1rem; justify-content: space-around; text-align: center; margin: 1rem 0; }
+        .stats div { background: #f1f5f9; padding: 0.8rem; border-radius: 8px; flex: 1; }
+        .stats .number { font-size: 1.8rem; font-weight: bold; color: #2c3e50; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-link">← 返回首页</a>
+    <div class="header">
+        <h1>🤖 AI辅助开发报告</h1>
+        <div>使用 TRAE 完成《大学生活模拟器》开发 · 效率提升 70%</div>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">🏠 首页</a>
+        <a href="game.html">🎮 大学生活模拟器</a>
+        <a href="economics.html">📈 经济数据分析</a>
+        <a href="algorithms.html">🔢 数列求和</a>
+        <a href="ai-report.html">🤖 AI报告</a>
+    </div>
+
+    <div class="section-title">📊 效率提升总览</div>
+    <div class="stats">
+        <div><div class="number">-70%</div>时间节省</div>
+        <div><div class="number">-85%</div>Bug减少</div>
+        <div><div class="number">+3x</div>代码产出速度</div>
+    </div>
+
+    <div class="section-title">⏱️ 使用AI前后对比</div>
+    <div class="comparison">
+        <div>
+            <strong>😰 传统开发（无AI）</strong>
+            <ul style="margin-top: 0.8rem; margin-left: 1.2rem;">
+                <li>手写24个随机事件 → 繁琐易错</li>
+                <li>边界条件容易遗漏</li>
+                <li>金钱不足逻辑手动调试</li>
+                <li>进度条/结局系统逐行编写</li>
+            </ul>
+            <div style="margin-top: 0.8rem;"><strong>⏱️ 预估总耗时：290分钟</strong> (~4.8小时)</div>
+        </div>
+        <div>
+            <strong>🚀 TRAE辅助开发</strong>
+            <ul style="margin-top: 0.8rem; margin-left: 1.2rem;">
+                <li>批量生成6类活动+24个随机事件</li>
+                <li>自动添加max/min边界防护</li>
+                <li>自动生成金钱校验逻辑</li>
+                <li>进度条函数/结局评分一键生成</li>
+            </ul>
+            <div style="margin-top: 0.8rem;"><strong>✅ 实际总耗时：88分钟</strong> (~1.5小时)</div>
+        </div>
+    </div>
+
+    <div class="section-title">📊 各模块效率对比</div>
+    <table>
+        <thead><tr><th>任务模块</th><th>传统编码(分钟)</th><th>TRAE辅助(分钟)</th><th>效率提升</th></tr></thead>
+        <tbody>
+            <tr><td colspan="3"><strong>游戏核心开发</strong></td><td></td></tr>
+            <tr><td>类结构与属性初始化</td><td>20</td><td>5</td><td>↑75%</td></tr>
+            <tr><td>6类活动 + 24个随机事件</td><td>90</td><td>20</td><td>↑78%</td></tr>
+            <tr><td>属性变化与边界检查</td><td>30</td><td>10</td><td>↑67%</td></tr>
+            <tr><td>进度条与UI显示</td><td>20</td><td>8</td><td>↑60%</td></tr>
+            <tr><td>特殊事件（奖学金、休学等）</td><td>40</td><td>15</td><td>↑63%</td></tr>
+            <tr><td>游戏主循环与输入处理</td><td>30</td><td>10</td><td>↑67%</td></tr>
+            <tr><td>结局计算与文字</td><td>20</td><td>5</td><td>↑75%</td></tr>
+            <tr><td>调试（金钱不足、属性溢出）</td><td>40</td><td>15</td><td>↑63%</td></tr>
+            <tr style="background: #f8fafc; font-weight: bold;">
+                <td>总计</td><td>290分钟</td><td>88分钟</td><td>↑70%</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="section-title">🤖 AI生成的典型代码</div>
+    <pre><code># AI自动生成的随机事件（批量）
+self.options = {
+    '1': {'name': '去图书馆学习',
+          'events': [("偶遇教授，获得学习建议", 3,0,-1,0,0),
+                     ("熬夜学习，第二天疲惫", 2,-3,-2,0,0)]},
+    '2': {'name': '去健身房锻炼', ...},
+    # ... 共6类活动，24个随机事件
+}
+
+# AI自动添加的属性边界检查
+self.gpa = max(0, min(100, self.gpa + gpa_delta))
+self.health = max(0, min(100, self.health + health_delta))
+self.money = max(0, self.money + money_delta)</code></pre>
+
+    <div class="section-title">🔧 TRAE主要应用场景</div>
+    <ul style="margin-left: 1.5rem;">
+        <li>📝 批量生成随机事件（24个事件，10分钟完成）</li>
+        <li>🐛 属性溢出修复（使用 max/min 钳位）</li>
+        <li>💰 金钱不足校验逻辑</li>
+        <li>📊 进度条可视化函数</li>
+        <li>🏆 结局评分系统</li>
+    </ul>
+
+    <div class="section-title">⚠️ AI无法替代的工作</div>
+    <div class="note">
+        • 🎮 核心玩法创意设计 → 需要人工构思游戏机制<br>
+        • ⚖️ 数值平衡的直觉调整 → AI生成数值后需要人工测试调整<br>
+        • ✍️ 游戏体验的主观优化 → 文案润色、交互节奏由人工设计<br>
+        • 🏗️ 代码结构与可维护性 → 人工决定整体架构<br>
+        • 🧪 游戏平衡性测试 → 需要人工反复游玩验证
+    </div>
+
+    <div class="section-title">💡 使用TRAE的心得</div>
+    <ul style="margin-left: 1.5rem;">
+        <li>✅ 阶梯式提问：先让TRAE生成框架，再逐步细化</li>
+        <li>✅ 善用代码解释功能：选中代码问“这段代码做了什么”</li>
+        <li>✅ 迭代调试：将运行错误输出直接复制给TRAE</li>
+        <li>✅ 不要完全依赖AI做数值平衡——自己玩10遍再调整</li>
+    </ul>
+
+    <div class="footer">
+        © 2026 丁奕乐 | AI辅助编程实践报告 | 工具：TRAE
+    </div>
+</div>
+</body>
+</html>

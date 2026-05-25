@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宏观经济数据分析 | 丁奕乐</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f5f7fa;
+            color: #1e1e2f;
+            line-height: 1.5;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 1000px; margin: 0 auto; background: white; }
+        .header { border-bottom: 3px solid #2c3e50; padding-bottom: 1rem; margin-bottom: 2rem; }
+        .header h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+        .back-link { display: inline-block; margin-bottom: 1rem; color: #2c3e50; }
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0 1.5rem 0;
+            padding: 0.8rem 0;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .nav-links a {
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 0.3rem 0.8rem;
+            background: #f1f5f9;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.8rem 0;
+            border-bottom: 2px solid #eaeef2;
+            padding-bottom: 0.3rem;
+        }
+        pre {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            margin: 1rem 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        th, td {
+            border: 1px solid #cbd5e1;
+            padding: 0.5rem;
+            text-align: left;
+        }
+        th { background: #f1f5f9; }
+        .note { border-left: 4px solid #64748b; background: #f8fafc; padding: 0.8rem 1rem; margin: 1rem 0; }
+        .footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; font-size: 0.8rem; text-align: center; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-link">← 返回首页</a>
+    <div class="header">
+        <h1>📈 宏观经济数据分析</h1>
+        <div>基于 FRED 数据库 · CPI · 失业率 · 联邦基金利率</div>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">🏠 首页</a>
+        <a href="game.html">🎮 大学生活模拟器</a>
+        <a href="economics.html">📈 经济数据分析</a>
+        <a href="algorithms.html">🔢 数列求和</a>
+        <a href="ai-report.html">🤖 AI报告</a>
+    </div>
+
+    <div class="section-title">📊 数据集说明</div>
+    <table>
+        <thead><tr><th>文件名</th><th>描述</th><th>时间范围</th><th>数据量</th></tr></thead>
+        <tbody>
+            <tr><td>CPIAUCSL.csv</td><td>消费者价格指数 (CPI)</td><td>1947-01 – 2026-04</td><td>~950 条</td></tr>
+            <tr><td>UNRATE.csv</td><td>失业率 (月度)</td><td>1948-01 – 2026-04</td><td>~940 条</td></tr>
+            <tr><td>DFF.csv</td><td>联邦基金有效利率 (日度)</td><td>1954-07 – 2026-05</td><td>~18600+ 条</td></tr>
+        </tbody>
+    </table>
+
+    <div class="section-title">📈 菲利普斯曲线分析</div>
+    <pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+cpi = pd.read_csv('CPIAUCSL.csv', parse_dates=['observation_date'])
+unemp = pd.read_csv('UNRATE.csv', parse_dates=['observation_date'])
+
+df = pd.merge(cpi, unemp, on='observation_date')
+df['inflation'] = (df['CPIAUCSL'] / df['CPIAUCSL'].shift(12) - 1) * 100
+df = df.dropna()
+df = df[df['observation_date'] >= '2000-01-01']
+
+plt.scatter(df['UNRATE'], df['inflation'], alpha=0.5)
+z = np.polyfit(df['UNRATE'], df['inflation'], 1)
+p = np.poly1d(z)
+
+print(f'相关系数: {df["UNRATE"].corr(df["inflation"]):.3f}')</code></pre>
+
+    <div class="section-title">📊 经济指标综合图</div>
+    <pre><code># 同时绘制联邦基金利率、失业率、CPI通胀率
+plt.plot(df_rate['observation_date'], df_rate['DFF'], label='Fed Funds Rate')
+plt.plot(df_unrate['observation_date'], df_unrate['UNRATE'], label='Unemployment Rate')
+plt.plot(df_cpi['observation_date'], df_cpi['inflation'], label='CPI Inflation')
+# 标注金融危机和COVID-19时期
+plt.axvspan('2007-12', '2009-06', alpha=0.2, label='Financial Crisis')
+plt.axvspan('2020-02', '2020-04', alpha=0.2, label='COVID-19')</code></pre>
+
+    <div class="section-title">📈 关键分析发现</div>
+    <div class="note">
+        • 通货膨胀率与失业率呈现负相关（菲利普斯曲线验证）<br>
+        • 2008年金融危机：联邦基金利率从5.25%降至接近0%<br>
+        • 2020年COVID-19：失业率飙升至14.8%（历史高位）<br>
+        • 失业率与通胀率相关系数约 -0.3 ~ -0.5
+    </div>
+
+    <div class="section-title">📊 最新数据预览（2025-2026）</div>
+    <table>
+        <thead><tr><th>日期</th><th>CPI</th><th>失业率 (%)</th></tr></thead>
+        <tbody>
+            <tr><td>2026-04-01</td><td>332.407</td><td>4.3</td></tr>
+            <tr><td>2026-03-01</td><td>330.293</td><td>4.3</td></tr>
+            <tr><td>2026-02-01</td><td>327.460</td><td>4.4</td></tr>
+            <tr><td>2026-01-01</td><td>326.588</td><td>4.3</td></tr>
+            <tr><td>2025-12-01</td><td>326.031</td><td>4.4</td></tr>
+            <tr><td>2025-11-01</td><td>325.063</td><td>4.5</td></tr>
+            <tr><td>2020-04-01</td><td>256.032</td><td style="color:#b91c1c;">14.8 (历史高点)</td></tr>
+        </tbody>
+    </table>
+
+    <div class="footer">
+        © 2026 丁奕乐 | 数据来源：美联储经济数据库 (FRED)
+    </div>
+</div>
+</body>
+</html>
